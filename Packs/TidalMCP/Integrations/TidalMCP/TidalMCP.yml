@@ -1,0 +1,49 @@
+category: Utilities
+provider: Tidal Cyber
+sectionorder:
+- Connect
+commonfields:
+  id: Tidal MCP
+  version: -1
+configuration:
+- name: server_url
+  section: Connect
+  display: Tidal MCP Server URL
+  type: 0
+  required: true
+  additionalinfo: The externally reachable MCP endpoint for your Tidal tenant, ending in /mcp.
+- name: token
+  type: 9
+  displaypassword: Tidal Read-Only API Token
+  hiddenusername: true
+  required: true
+  additionalinfo: A customer-managed read-only API token for the Tidal tenant. Full-access tokens are not accepted by the MCP endpoint.
+  section: Connect
+description: Connect Cortex agents to a Tidal Cyber tenant through its read-only Model Context Protocol (MCP) server.
+display: Tidal MCP
+name: Tidal MCP
+script:
+  commands:
+  - arguments: []
+    description: Retrieves the tools available from the Tidal MCP server.
+    name: list-tools
+    hidden: true
+    outputs: []
+  - arguments:
+    - name: name
+      description: The name of the Tidal MCP tool to call.
+      required: true
+    - name: arguments
+      description: JSON parameters for the tool execution.
+    description: Calls a Tidal MCP tool with optional input parameters.
+    name: call-tool
+    hidden: true
+    outputs: []
+  script: '-'
+  type: python
+  subtype: python3
+  dockerimage: demisto/mcp:1.0.0.10325753
+  mcp: true
+fromversion: 8.13.0
+tests:
+- No tests (auto formatted)

@@ -1,0 +1,33 @@
+{
+    "name": "Tidal MCP",
+    "description": "Connect Cortex agents to Tidal Cyber through its read-only Model Context Protocol server.",
+    "support": "partner",
+    "currentVersion": "1.0.0",
+    "serverMinVersion": "8.13.0",
+    "author": "Tidal Cyber",
+    "url": "https://support.tidalcyber.com/",
+    "email": "support@tidalcyber.com",
+    "created": "2026-09-02T00:00:00Z",
+    "categories": [
+        "Utilities"
+    ],
+    "tags": [],
+    "useCases": [],
+    "keywords": [
+        "Tidal Cyber",
+        "MCP",
+        "MITRE ATT&CK",
+        "Threat-Informed Defense"
+    ],
+    "marketplaces": [
+        "platform"
+    ],
+    "supportedModules": [
+        "agentix",
+        "cloud_runtime_security",
+        "cloud_posture",
+        "xsiam",
+        "edr",
+        "cloud"
+    ]
+}
