@@ -2,7 +2,13 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from TidalMCP import SERVER_NAME, TIDAL_AUTH_TYPE, main, validate_required_params
+from TidalMCP import (
+    SERVER_NAME,
+    TIDAL_AUTH_TYPE,
+    main,
+    validate_and_normalize_server_url,
+    validate_required_token,
+)
 
 
 VALID_PARAMS = {
@@ -11,23 +17,54 @@ VALID_PARAMS = {
 }
 
 
-def test_validate_required_params_accepts_url_and_token():
-    # ARRANGE / ACT / ASSERT
-    validate_required_params(VALID_PARAMS["server_url"], VALID_PARAMS["token"]["password"])
+@pytest.mark.parametrize(
+    ("server_url", "expected_url"),
+    [
+        (
+            "https://customer-hosted-api.tidalcyber.com/mcp",
+            "https://customer-hosted-api.tidalcyber.com/mcp",
+        ),
+        (
+            "  https://CUSTOMER-hosted-api.tidalcyber.com:443/mcp/  ",
+            "https://customer-hosted-api.tidalcyber.com/mcp",
+        ),
+    ],
+)
+def test_validate_and_normalize_server_url_accepts_tidal_urls(server_url: str, expected_url: str):
+    # ACT
+    result = validate_and_normalize_server_url(server_url)
+
+    # ASSERT
+    assert result == expected_url
 
 
 @pytest.mark.parametrize(
-    ("server_url", "token", "message"),
+    ("server_url", "message"),
     [
-        ("", "customer-read-only-token", "Server URL"),
-        ("   ", "customer-read-only-token", "Server URL"),
-        ("https://customer-hosted-api.tidalcyber.com/mcp", "", "read-only API token"),
+        ("", "Server URL must be provided"),
+        ("http://customer-hosted-api.tidalcyber.com/mcp", "must use HTTPS"),
+        ("https:///mcp", "must include a hostname"),
+        ("https://user:password@customer-hosted-api.tidalcyber.com/mcp", "must not contain credentials"),
+        ("https://customer-hosted-api.tidalcyber.com/mcp?tenant=customer", "must not contain a query"),
+        ("https://customer-hosted-api.tidalcyber.com/mcp#tools", "must not contain a query"),
+        ("https://customer-hosted-api.tidalcyber.com/api", "must end in /mcp"),
+        ("https://attacker.example/mcp", "must use a Tidal Cyber hostname"),
+        ("https://customer-hosted-api.tidalcyber.com.attacker.example/mcp", "must use a Tidal Cyber hostname"),
+        ("https://127.0.0.1/mcp", "must use a Tidal Cyber hostname"),
+        ("https://customer-hosted-api.tidalcyber.com:8443/mcp", "must use the standard HTTPS port"),
+        ("https://customer-hosted-api.tidalcyber.com:invalid/mcp", "Server URL is invalid"),
     ],
 )
-def test_validate_required_params_rejects_missing_values(server_url: str, token: str, message: str):
-    # ARRANGE / ACT / ASSERT
+def test_validate_and_normalize_server_url_rejects_unsafe_urls(server_url: str, message: str):
+    # ACT / ASSERT
     with pytest.raises(ValueError, match=message):
-        validate_required_params(server_url, token)
+        validate_and_normalize_server_url(server_url)
+
+
+def test_validate_required_token_rejects_missing_token():
+    # ACT / ASSERT
+    with pytest.raises(ValueError, match="read-only API token"):
+        validate_required_token("")
 
 
 @pytest.mark.asyncio

@@ -11,7 +11,7 @@ configuration:
   display: Tidal MCP Server URL
   type: 0
   required: true
-  additionalinfo: The externally reachable MCP endpoint for your Tidal tenant, ending in /mcp.
+  additionalinfo: The externally reachable HTTPS MCP endpoint for your Tidal tenant. The URL must use a Tidal Cyber hostname and end in /mcp.
 - name: token
   type: 9
   displaypassword: Tidal Read-Only API Token

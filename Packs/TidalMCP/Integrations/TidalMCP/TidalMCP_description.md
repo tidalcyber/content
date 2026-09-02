@@ -8,8 +8,8 @@ Cortex discovers the tools exposed by Tidal and creates agentic system actions f
 - Ask your Tidal administrator to enable MCP and API-token authentication for the tenant.
 - Create a customer-managed **read-only** Tidal API token for a user with the intended permissions. The MCP endpoint
   rejects full-access tokens.
-- Ensure the tenant's HTTPS MCP endpoint is reachable from Cortex. The URL ends in `/mcp`, for example
-  `https://tenant.example.com/mcp`.
+- Ensure the tenant's HTTPS MCP endpoint is reachable from Cortex. The URL must use a Tidal-managed
+  `*.tidalcyber.com` hostname and end in `/mcp`, for example `https://customer-hosted-api.tidalcyber.com/mcp`.
 
 ### Configure the integration
 

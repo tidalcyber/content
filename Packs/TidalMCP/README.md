@@ -7,6 +7,10 @@ This pack connects to the customer-configured Tidal MCP endpoint, discovers its 
 search and read Tidal objects without granting write access. Each customer supplies their own tenant URL and read-only
 API token; no tenant URL or credential is embedded in the pack.
 
+For credential safety, the configured endpoint must use HTTPS, a Tidal-managed `*.tidalcyber.com` hostname, the standard
+HTTPS port, and the `/mcp` path. The integration rejects URLs containing embedded credentials, query strings, or
+fragments.
+
 ## Tools
 
 The Tidal MCP server currently exposes these tools:
