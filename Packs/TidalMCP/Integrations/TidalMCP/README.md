@@ -5,7 +5,7 @@ This integration was integrated and tested with the latest version of Tidal MCP.
 
 | **Parameter** | **Description** | **Required** |
 | --- | --- | --- |
-| Tidal MCP Server URL | The externally reachable MCP endpoint for your Tidal tenant, ending in /mcp. | True |
+| Tidal MCP Server URL | The externally reachable HTTPS MCP endpoint for your Tidal tenant. The URL must use a Tidal-managed *.tidalcyber.com hostname, use the standard HTTPS port, contain no credentials, query string, or fragment, and end in /mcp. | True |
 | Tidal Read-Only API Token | A customer-managed read-only API token for the Tidal tenant. Full-access tokens are not accepted by the MCP endpoint. | True |
 
 ## Commands
